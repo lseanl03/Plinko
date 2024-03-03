@@ -1,5 +1,6 @@
 import GameManager from "./GameManager";
 import Pool, { PoolType } from "./Pool";
+import Spawner from "./Spawner";
 import SpawnerTest from "./Spawner";
 
 export enum ColorType{
@@ -26,8 +27,7 @@ export default class RewardColorBase extends cc.Component {
         this.EffectActive();
         var moneyReward = this.cost * GameManager.Instance.betLevelCurrent;
         GameManager.Instance.UpdateMoney(moneyReward);
-        //Pool.Instance.SpawnRewardMoney(moneyReward, Pool.Instance.spawner.circlePlayer.position);
-        cc.log(SpawnerTest.Instance);
+        Pool.Instance.SpawnRewardMoney(moneyReward, GameManager.Instance.circlePlayer.position);
     }
     EffectActive(){
         cc.tween(this.node)

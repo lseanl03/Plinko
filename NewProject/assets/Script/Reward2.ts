@@ -62,8 +62,8 @@ export default class Reward2 extends cc.Component {
     }
 
     HandleAfterDestroyPlayer(){
-        if(SpawnerTest.Instance.circlePlayer != null){
-            SpawnerTest.Instance.circlePlayer = null;
+        if(GameManager.Instance.circlePlayer != null){
+            GameManager.Instance.circlePlayer = null;
             SpawnerTest.Instance.SetRewardID();
             GameManager.Instance.BetButtonState(true);
         }

@@ -12,8 +12,10 @@ export default class GameManager extends cc.Component {
     public minBetLevel : number = 10000;
     public maxBetLevel : number = 1000000;
 
-    public currentMoney : number = 1000000; 
+    public currentMoney : number = 1000000;
 
+    public circlePlayer : cc.Node = null;
+    
     public static Instance :GameManager = null;
 
     //UI

@@ -17,7 +17,7 @@ const random = (min, max) => {
     return Math.random() * (max - min) + min
 }
 @ccclass
-export default class SpawnerTest extends cc.Component {
+export default class Spawner extends cc.Component {
 
 
     public rewardToDropPosition: { [key: number]: number[]} = {
@@ -47,9 +47,6 @@ export default class SpawnerTest extends cc.Component {
     @property(cc.Node)
     spawnPoint: cc.Node = null;
 
-
-    public circlePlayer : cc.Node = null;
-
     //UI
 
     @property(BetColor)
@@ -73,10 +70,10 @@ export default class SpawnerTest extends cc.Component {
 
 
     //singleton
-    static Instance : SpawnerTest;
+    static Instance : Spawner;
 
     onLoad () {
-        SpawnerTest.Instance = this;
+        Spawner.Instance = this;
 
         var greenBetButton = this.greenBet.getComponent(cc.Button);
         var orangeBetButton = this.orangeBet.getComponent(cc.Button);
@@ -112,24 +109,24 @@ export default class SpawnerTest extends cc.Component {
     // }
 
     SpawnCirclePlayer(betColor : BetColor){
-        if(this.circlePlayer != null) return;
+        if(GameManager.Instance.circlePlayer != null) return;
 
         if(!GameManager.Instance.MoneyEnough()){
             return;
         }
         //this.circlePlayer = cc.instantiate(this.circlePlayerPrefab); 
-        this.circlePlayer = Pool.Instance.spawn(PoolType.CirclePlayer);
+        GameManager.Instance.circlePlayer = Pool.Instance.spawn(PoolType.CirclePlayer);
 
-        this.circlePlayer.setParent(this.canvas.node);     
+        GameManager.Instance.circlePlayer.setParent(this.canvas.node);     
 
         this.spawnPoint.position = cc.v3(this.GetRewardPosition(), this.spawnPoint.y, this.spawnPoint.z);
 
         //test spawn
         //this.spawnPoint.position = cc.v3(this.spawnPoint.position.x + 0.1, this.spawnPoint.y, this.spawnPoint.z);
         
-        this.circlePlayer.position = this.spawnPoint.position;
+        GameManager.Instance.circlePlayer.position = this.spawnPoint.position;
 
-        console.log("vi tri spawn player: " + this.circlePlayer.position.x);
+        console.log("vi tri spawn player: " + GameManager.Instance.circlePlayer.position.x);
 
         this.SetCirclePlayerInfo(betColor);
 
@@ -139,7 +136,7 @@ export default class SpawnerTest extends cc.Component {
 
     }
     SetCirclePlayerInfo(betColor : BetColor){
-        var player = this.circlePlayer.getComponent(CirclePlayer);       
+        var player = GameManager.Instance.circlePlayer.getComponent(CirclePlayer);       
         player.GetInfo(betColor.color, betColor.colorType);
         player.GetPosX(this.spawnPoint.position.x);
     }  

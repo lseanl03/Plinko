@@ -24,25 +24,23 @@ export default class Pool extends cc.Component {
     @property (cc.Canvas)
     canvas : cc.Canvas = null
 
-    // @property (SpawnerTest)
-    // spawner : SpawnerTest = null;
-
     private pools: {[key in PoolType]?: cc.NodePool} = {};
 
     public static Instance : Pool = null;
 
     onLoad() {
+
         Pool.Instance = this;
 
-        this.pools[PoolType.CirclePlayer] = new cc.NodePool();
-        this.pools[PoolType.RewardMoney] = new cc.NodePool();
     }
+    
     public spawn(poolType: PoolType) {
-        let node;
-        let pool = this.pools[poolType];
+        var node;
+        var pool = this.pools[poolType];
         if (pool && pool.size() > 0) { 
             node = pool.get();
-        } else { 
+        } 
+        else { 
             switch(poolType) {
                 case PoolType.CirclePlayer:
                     node = cc.instantiate(this.circlePlayer);
@@ -51,11 +49,12 @@ export default class Pool extends cc.Component {
                     node = cc.instantiate(this.rewardMoney);
                     break;
             }
+            this.pools[poolType] = new cc.NodePool();
         }
         return node;
     }
     public recycle(node: cc.Node, poolType: PoolType) {
-        let pool = this.pools[poolType];
+        var pool = this.pools[poolType];
         if (pool) {
             pool.put(node);
         }
