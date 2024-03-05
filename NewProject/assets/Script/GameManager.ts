@@ -59,7 +59,7 @@ export default class GameManager extends cc.Component {
 
     Init(){
         this.betLevelLabel.string = "" + this.betLevelCurrent;
-        this.moneyLabel.string = "" + this.currentMoney;
+        this.moneyLabel.string = "" + this.currentMoney + " VND";
     }
 
     onSubButtonClick(){
@@ -78,7 +78,7 @@ export default class GameManager extends cc.Component {
 
     public UpdateMoney(value: number){
         this.currentMoney += value;
-        this.moneyLabel.string = "" + this.currentMoney;
+        this.moneyLabel.string = "" + this.currentMoney + " VND";
     }
 
     public BetMoney(value : number){
