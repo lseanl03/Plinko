@@ -7,9 +7,12 @@
 
 import BetColor from "./BetColor";
 import CirclePlayer from "./CirclePlayer";
+import DropPosXData from "./DropPosXData";
 import GameManager from "./GameManager";
+import GhimController, { GhimType } from "./GhimController";
 import Pool, { PoolType } from "./Pool";
 import Reward2 from "./Reward2";
+import RewardGroup from "./RewardGroup";
 import RewardMoney from "./RewardMoney";
 
 const {ccclass, property} = cc._decorator;
@@ -19,26 +22,10 @@ const random = (min, max) => {
 @ccclass
 export default class Spawner extends cc.Component {
 
-
-    public rewardToDropPosition: { [key: number]: number[]} = {
-        //key = id của reward 
-        //x random:  -25 đến 25
-        //trục y : 300
-        0: [-24.6],
-        1: [-24.5, -23.4, 3.4],
-        2: [-22],
-        3: [-19, -5, 6],
-        4: [-24, -8, 0, 1, 9, 23],
-        5: [-25, -23, -16, -14, -11, 4, 20],
-        6: [-20, -17, -9, -2, -1, 3, 5, 12, 14, 17],
-        7: [-3, 8, 11, 19],
-        8: [-21, -15, -13, -12, -10, -7, -6, 25],
-        9: [-18, -4, 2, 7, 13, 15, 16, 18, 21, 22],
-        10: [10, 24, 2.1, 7.2],
-        11: [-2.8],
-    };
+    public dropPosXData : DropPosXData;
 
     private timer : number = 1;
+    private indexTest : number = 0;
 
     public id : number = 0;
 
@@ -62,19 +49,14 @@ export default class Spawner extends cc.Component {
     @property (cc.Canvas)
     canvas : cc.Canvas = null;
     
-    @property(cc.Node)
-    rewardGroup: cc.Node = null;
+    rewardGroup: RewardGroup = null;
     
-    @property([Reward2])
-    rewardList : Reward2[] = [];
-
-
     //singleton
     static Instance : Spawner;
 
     onLoad () {
         Spawner.Instance = this;
-
+        this.dropPosXData = new DropPosXData();
         var greenBetButton = this.greenBet.getComponent(cc.Button);
         var orangeBetButton = this.orangeBet.getComponent(cc.Button);
         var redBetButton = this.redBet.getComponent(cc.Button);
@@ -83,12 +65,7 @@ export default class Spawner extends cc.Component {
         orangeBetButton.node.on('click', this.onOrangeBetButtonClick, this);
         redBetButton.node.on('click', this.onRedBetButtonClick, this);
 
-
-        for(var i = 0; i < this.rewardGroup.childrenCount; i++){
-            var reward = this.rewardGroup.children[i].getComponent(Reward2);
-            this.rewardList.push(reward);
-        }
-        this.SetRewardID();
+        //this.SetRewardID();
     }
 
     onGreenBetButtonClick(){
@@ -99,12 +76,16 @@ export default class Spawner extends cc.Component {
     }
     onRedBetButtonClick(){
         this.SpawnCirclePlayer(this.redBet);
+
+        //test
+        //this.indexTest = this.indexTest + 1;
     }
+
     // protected update(dt: number): void {
     //     this.timer -= dt;
     //     if(this.timer <=0){
     //         this.SpawnCirclePlayer(this.greenBet);
-    //         this.timer = 1;
+    //         this.timer = 0.5;
     //     }
     // }
 
@@ -114,24 +95,21 @@ export default class Spawner extends cc.Component {
         if(!GameManager.Instance.MoneyEnough()){
             return;
         }
-        //this.circlePlayer = cc.instantiate(this.circlePlayerPrefab); 
         GameManager.Instance.circlePlayer = Pool.Instance.spawn(PoolType.CirclePlayer);
 
         GameManager.Instance.circlePlayer.setParent(this.canvas.node);     
 
+        //riel
         this.spawnPoint.position = cc.v3(this.GetRewardPosition(), this.spawnPoint.y, this.spawnPoint.z);
 
-        //test spawn
+        //test
         //this.spawnPoint.position = cc.v3(this.spawnPoint.position.x + 0.1, this.spawnPoint.y, this.spawnPoint.z);
         
-        GameManager.Instance.circlePlayer.position = this.spawnPoint.position;
-
-        console.log("vi tri spawn player: " + GameManager.Instance.circlePlayer.position.x);
-
         this.SetCirclePlayerInfo(betColor);
-
-
+        
+        GameManager.Instance.circlePlayer.position = this.spawnPoint.position;
         GameManager.Instance.BetButtonState(false);
+        GameManager.Instance.GhimLevelButtonState(false);
         GameManager.Instance.BetMoney(GameManager.Instance.betLevelCurrent);
 
     }
@@ -139,16 +117,27 @@ export default class Spawner extends cc.Component {
         var player = GameManager.Instance.circlePlayer.getComponent(CirclePlayer);       
         player.GetInfo(betColor.color, betColor.colorType);
         player.GetPosX(this.spawnPoint.position.x);
+        player.GetSize(this.rewardGroup.node.childrenCount -1);
     }  
     public SetRewardID(){
-        this.id = Math.floor(random(0, this.rewardList.length -1));
+        var length = this.rewardGroup.node.childrenCount -1;
+        var rewardToDropPosition = this.dropPosXData.GetTypeRewardToDropPositionGhim(length);
+        do{
+            this.id = Math.floor(random(0, this.rewardGroup.node.childrenCount -1));
+            var ID = rewardToDropPosition[this.id];    
+        }while(ID.length == 0)
+
         console.log("roi vao o thu: " + this.id);
     }
     public GetRewardPosition(){
-        var rewardID = this.rewardToDropPosition[this.id];
-        var randomIndex = Math.floor(random(0, rewardID.length));
+        var length = this.rewardGroup.node.childrenCount -1;
+
+        var rewardToDropPosition = this.dropPosXData.GetTypeRewardToDropPositionGhim(length);
+
+        var rewardID = rewardToDropPosition[this.id];
+
+        var randomIndex = Math.floor(random(0, rewardID.length -1));
         console.log("vi tri spawn: " + rewardID[randomIndex]);
         return rewardID[randomIndex];
     }
-
 }

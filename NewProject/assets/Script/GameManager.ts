@@ -1,6 +1,11 @@
 import BetColor from "./BetColor";
 import ConsumeMoney from "./ConsumeMoney";
 import ConsumeMoneyLabel from "./ConsumeMoney";
+import GhimController, { GhimType } from "./GhimController";
+import GhimLevel from "./GhimLevel";
+import GhimLevelSelect from "./GhimLevelSelect";
+import GhimLevelView from "./GhimLevelView";
+import RewardHistory from "./RewardHistory";
 
 
 const {ccclass, property} = cc._decorator;
@@ -36,11 +41,29 @@ export default class GameManager extends cc.Component {
     @property (cc.Button)
     sumMaxButton : cc.Button = null;
 
-    @property (cc.Node)
-    rewardGroup : cc.Node = null;
-
     @property (ConsumeMoney)
     consumeMoney : ConsumeMoney = null;
+
+    //Ghim
+    @property(GhimController)
+    ghimControllerList: GhimController[] = [];
+
+    @property (GhimLevelView)
+    ghimLevelView : GhimLevelView = null;
+
+    @property (GhimLevelSelect)
+    ghimLevelSelect : GhimLevelSelect = null;
+
+    //Reward History
+
+    @property (cc.Prefab)
+    rewardHistoryPrefab : cc.Prefab = null;
+
+    @property (cc.Node)
+    rewardHistoryViewHolder : cc.Node = null;
+
+    @property (cc.Node)
+    rewardHistoryListHolder : cc.Node = null;
 
     protected onLoad(): void {
         GameManager.Instance = this;
@@ -60,6 +83,9 @@ export default class GameManager extends cc.Component {
     Init(){
         this.betLevelLabel.string = "" + this.betLevelCurrent;
         this.moneyLabel.string = "" + this.currentMoney + " VND";
+
+        this.SwitchGhimLevel(GhimType.ghim_12);
+
     }
 
     onSubButtonClick(){
@@ -79,6 +105,7 @@ export default class GameManager extends cc.Component {
     public UpdateMoney(value: number){
         this.currentMoney += value;
         this.moneyLabel.string = "" + this.currentMoney + " VND";
+
     }
 
     public BetMoney(value : number){
@@ -101,6 +128,10 @@ export default class GameManager extends cc.Component {
         this.betLevelLabel.string = "" + this.betLevelCurrent;
     }
 
+    public GhimLevelButtonState(state : boolean){
+        this.ghimLevelView.button.interactable = state;
+    }
+
     public BetButtonState(state : boolean){
         this.subButton.interactable = state;
         this.sumButton.interactable = state;
@@ -113,4 +144,37 @@ export default class GameManager extends cc.Component {
         return this.currentMoney >= this.betLevelCurrent;
     }
     
+    public SwitchGhimLevel(ghimType : GhimType){
+        this.ghimLevelSelect.CheckGhimLevel(ghimType);
+
+        for(let i = 0; i < this.ghimControllerList.length; i++){
+            let ghimController = this.ghimControllerList[i];
+
+            if(ghimController.ghimType != ghimType){
+                ghimController.node.active = false;
+            }
+            else{
+                ghimController.node.active = true;
+            }
+        }
+    }
+    public GetRewardHistory(cost: number, color: cc.Color){
+        var rewardHistoryOnView = cc.instantiate(this.rewardHistoryPrefab);
+        rewardHistoryOnView.setParent(this.rewardHistoryViewHolder);
+        rewardHistoryOnView.setSiblingIndex(0);
+        rewardHistoryOnView.getComponent(RewardHistory).GetInfo(cost, color);
+
+        if(this.rewardHistoryViewHolder.childrenCount >= 15){
+            this.rewardHistoryViewHolder.children[this.rewardHistoryViewHolder.childrenCount - 1].destroy();
+        }
+        
+        var rewardHistoryOnList = cc.instantiate(this.rewardHistoryPrefab);
+        rewardHistoryOnList.setParent(this.rewardHistoryListHolder);
+        rewardHistoryOnList.setSiblingIndex(0);
+        rewardHistoryOnList.getComponent(RewardHistory).GetInfo(cost, color);
+       
+        if(this.rewardHistoryListHolder.childrenCount >= 15){
+            this.rewardHistoryListHolder.children[this.rewardHistoryListHolder.childrenCount - 1].destroy();
+        }
+    }
 }

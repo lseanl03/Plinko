@@ -55,6 +55,13 @@ export default class Reward2 extends cc.Component {
 
             if(player != null){
                 this.HandleRewardWithColor(player.colorType);
+                //riel
+                //console.log(this.id + " id" + " | "+ (player.posX + " posX"));
+                
+                //test
+                // if(this.id >= 13 || this.id <= 3)
+                // console.log(this.id + " id" + " | "+ (player.posX + " posX"));
+                
             }
             Pool.Instance.recycle(player.node, PoolType.CirclePlayer);
             this.HandleAfterDestroyPlayer();
@@ -66,6 +73,7 @@ export default class Reward2 extends cc.Component {
             GameManager.Instance.circlePlayer = null;
             SpawnerTest.Instance.SetRewardID();
             GameManager.Instance.BetButtonState(true);
+            GameManager.Instance.GhimLevelButtonState(true);
         }
     }
     
