@@ -111,7 +111,7 @@ export default class GameManager extends cc.Component {
     public BetMoney(value : number){
         if(value > this.currentMoney) return;
         this.currentMoney -= value;
-        this.moneyLabel.string = "" + this.currentMoney;
+        this.moneyLabel.string = "" + this.currentMoney + " VND";
 
         this.consumeMoney.node.active = true;
         this.consumeMoney.label.string = "-" + value;
@@ -163,6 +163,7 @@ export default class GameManager extends cc.Component {
         rewardHistoryOnView.setParent(this.rewardHistoryViewHolder);
         rewardHistoryOnView.setSiblingIndex(0);
         rewardHistoryOnView.getComponent(RewardHistory).GetInfo(cost, color);
+        rewardHistoryOnView.getComponent(RewardHistory).Anim();
 
         if(this.rewardHistoryViewHolder.childrenCount >= 15){
             this.rewardHistoryViewHolder.children[this.rewardHistoryViewHolder.childrenCount - 1].destroy();

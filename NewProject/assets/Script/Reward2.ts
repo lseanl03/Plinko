@@ -33,7 +33,9 @@ export default class Reward2 extends cc.Component {
 
     protected onLoad(): void {
         this.id = this.node.getSiblingIndex();
-        this.posLabel.string = "" + this.id;
+        this.posLabel.string = "";
+        
+        //this.posLabel.string = "" + this.id;
     }
     public HandleRewardWithColor(colorType: ColorType){
         if(colorType == ColorType.green){

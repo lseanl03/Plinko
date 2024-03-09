@@ -23,27 +23,33 @@ export default class ButtonBase extends cc.Component {
     protected ChangeStateNode(){
         StateManager.Instance.ChangeStateNodeOnClick(this.node);
     }
-    private onMouseEnter(event: cc.Event.EventMouse): void {
+
+    protected Active(){}
+    protected Deactive(){}
+    protected onMouseEnter(event: cc.Event.EventMouse): void {
         cc.tween(this.node)
         .to(0.1, {scale: 1.05})
         .start();
     }
 
-    private onMouseLeave(event: cc.Event.EventMouse): void {
+    protected onMouseLeave(event: cc.Event.EventMouse): void {
         cc.tween(this.node)
         .to(0.1, {scale: 1})
         .start();
+        this.Deactive();
     }
 
-    private onMouseDown(event: cc.Event.EventMouse): void {
+    protected onMouseDown(event: cc.Event.EventMouse): void {
         cc.tween(this.node)
         .to(0.1, {scale: 0.95})
         .start();
+        this.Active();
     }
-    private onMouseUp(event: cc.Event.EventMouse): void {
+    protected onMouseUp(event: cc.Event.EventMouse): void {
         cc.tween(this.node)
         .to(0.1, {scale: 1})
         .start();
         this.ChangeStateNode();
+        this.Deactive();
     }
 }
