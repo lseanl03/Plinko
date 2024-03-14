@@ -52,4 +52,7 @@ export default class ButtonBase extends cc.Component {
         this.ChangeStateNode();
         this.Deactive();
     }
+    protected buttonState(state: boolean){
+        this.node.getComponent(cc.Button).interactable = state;
+    } 
 }

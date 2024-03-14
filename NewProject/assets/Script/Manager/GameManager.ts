@@ -48,6 +48,7 @@ export default class GameManager extends cc.Component {
     public UpdateMoney(value: number){
         this.currentMoney += value;
         GameplayUIManager.Instance.SetCurrentMoneyLabel(this.currentMoney);
+        GameplayUIManager.Instance.CurrentMoneyEffect();
     }
 
     public BetMoney(value : number){

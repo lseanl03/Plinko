@@ -101,6 +101,13 @@ export default class GameplayUIManager extends cc.Component {
         this.consumeMoney.node.active = state;
     }
 
+    CurrentMoneyEffect(){
+        cc.tween(this.currentMoneyLabel.node)
+        .to(0.25, { scale: 1.1})
+        .to(0.2, { scale: 1})
+        .start();
+    }
+
 
 
 }
