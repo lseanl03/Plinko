@@ -5,8 +5,9 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
-import GameManager from "./GameManager";
-import Spawner from "./Spawner";
+import GameManager from "./Manager/GameManager";
+import GameplayUIManager from "./Manager/GameplayUIManager";
+import Spawner from "./Manager/Spawner";
 
 export enum GhimType {
     ghim_0 = 0,

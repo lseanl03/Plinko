@@ -5,29 +5,21 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
-import SpawnerTest from "./Manager/Spawner";
+import PoolManager, { PoolType } from "../Manager/PoolManager";
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class ConsumeMoney extends cc.Component {
-
-    @property(cc.Label)
-    public label : cc.Label = null;
-
-    protected onLoad(): void {
-        this.node.active = false;
-    }
+export default class PileEffect extends cc.Component {
     protected onEnable(): void {
-        this.node.opacity = 0;
+        this.node.opacity = 200;
         this.node.scale = 1;
         this.node.position = cc.v3(0, 0, 0);
-
+        
         cc.tween(this.node)
-        .to(0.5, {opacity: 255, position: cc.v3(0, 50, 0)})
-        .to(0.5, {scale: 0, opacity: 0})
+        .to(0.25, {opacity: 0, scale: 5})
         .call(() => {
-            this.node.active = false;
+            PoolManager.Instance.recycle(this.node, PoolType.PileEffect);
         })
         .start();
     }

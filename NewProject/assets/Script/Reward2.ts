@@ -6,11 +6,13 @@
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
 
-import GameManager from "./GameManager";
+import GameManager from "./Manager/GameManager";
 import CirclePlayer from "./CirclePlayer";
-import SpawnerTest from "./Spawner";
+import SpawnerTest from "./Manager/Spawner";
 import RewardColorBase, { ColorType } from "./RewardColorBase";
-import Pool, { PoolType } from "./Pool";
+import PoolManager, { PoolType } from "./Manager/PoolManager";
+import Spawner from "./Manager/Spawner";
+import GameplayUIManager from "./Manager/GameplayUIManager";
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -65,18 +67,14 @@ export default class Reward2 extends cc.Component {
                 // console.log(this.id + " id" + " | "+ (player.posX + " posX"));
                 
             }
-            Pool.Instance.recycle(player.node, PoolType.CirclePlayer);
+            PoolManager.Instance.recycle(player.node, PoolType.CirclePlayer);
             this.HandleAfterDestroyPlayer();
         }
     }
 
     HandleAfterDestroyPlayer(){
-        if(GameManager.Instance.circlePlayer != null){
-            GameManager.Instance.circlePlayer = null;
-            SpawnerTest.Instance.SetRewardID();
-            GameManager.Instance.BetButtonState(true);
-            GameManager.Instance.GhimLevelButtonState(true);
-        }
+        GameManager.Instance.GhimLevelButtonState(true);
+        GameplayUIManager.Instance.BetButtonState(true);
     }
     
 }

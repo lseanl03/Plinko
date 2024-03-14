@@ -1,5 +1,5 @@
 {
-  "title": "NewProject",
+  "title": "Plinko",
   "packageName": "org.cocos2d.demo",
   "startScene": "73077e16-30fd-454b-8261-8a06a834109a",
   "excludeScenes": [],
@@ -9,7 +9,7 @@
     "portrait": false,
     "upsideDown": false
   },
-  "webOrientation": "auto",
+  "webOrientation": "portrait",
   "inlineSpriteFrames": true,
   "inlineSpriteFrames_native": true,
   "mainCompressionType": "default",

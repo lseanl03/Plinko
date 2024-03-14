@@ -5,7 +5,9 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
-import Pool, { PoolType } from "./Pool";
+import PoolManager, { PoolType } from "./Manager/PoolManager";
+
+
 
 
 
@@ -18,16 +20,18 @@ export default class RewardMoney extends cc.Component {
     public label : cc.Label = null;
 
     protected onEnable(): void {
-        this.node.opacity = 0;
         this.node.scale = 1;
         this.node.position = cc.v3(0, 0, 0);
         
         cc.tween(this.node)
-        .to(0.3, {opacity: 255, position: cc.v3(this.node.x, this.node.y + 20, this.node.z)})
-        .to(0.7, {scale: 0.5, opacity: 100})
+        .to(0.25, {opacity: 255, position: cc.v3(this.node.x, this.node.y + 20, this.node.z)})
+        .to(0.5, {scale: 0.5})
         .call(() => {
-            Pool.Instance.recycle(this.node, PoolType.RewardMoney);
+            PoolManager.Instance.recycle(this.node, PoolType.RewardMoney);
         })
         .start();
+    }
+    public SetColor(color : cc.Color){
+        this.node.color = color;
     }
 }

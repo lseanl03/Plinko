@@ -42,9 +42,9 @@
     "3D Physics/Builtin"
   ],
   "preview-port": 7456,
-  "design-resolution-width": 960,
-  "design-resolution-height": 640,
-  "fit-width": false,
+  "design-resolution-width": 1200,
+  "design-resolution-height": 540,
+  "fit-width": true,
   "fit-height": true,
   "use-project-simulator-setting": false,
   "simulator-orientation": false,
@@ -63,5 +63,7 @@
     "audience": {
       "enable": false
     }
-  }
+  },
+  "last-module-event-record-time": 1710011638753,
+  "assets-sort-type": "name"
 }

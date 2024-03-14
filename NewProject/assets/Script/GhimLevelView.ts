@@ -6,8 +6,9 @@
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
 import ButtonBase from "./ButtonBase";
+import { GhimType } from "./GhimController";
 import GhimLevelSelect from "./GhimLevelSelect";
-import StateManager from "./StateManager";
+import StateManager from "./Manager/StateManager";
 
 const {ccclass, property} = cc._decorator;
 
@@ -34,7 +35,9 @@ export default class GhimLevelView extends ButtonBase {
         StateManager.Instance.ChangeStateNodeOnClick(this.ghimLevelHolder);    
     }
 
-    public GhimLevelText = (ghimLevel: number) => { this.label.string = "Ghim: " + ghimLevel};
+    public GhimLevelText(ghimType : GhimType){
+        this.label.string = "Ghim: " + ghimType.valueOf();
+    }
     
     onClick() {
         this.ghimLevelHolder.active = !this.ghimLevelHolder.active;

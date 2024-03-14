@@ -1,7 +1,8 @@
-import GameManager from "./GameManager";
-import Pool, { PoolType } from "./Pool";
-import Spawner from "./Spawner";
-import SpawnerTest from "./Spawner";
+import GameManager from "./Manager/GameManager";
+import PoolManager, { PoolType } from "./Manager/PoolManager";
+
+import Spawner from "./Manager/Spawner";
+import SpawnerTest from "./Manager/Spawner";
 
 export enum ColorType{
     none = 0,
@@ -34,7 +35,7 @@ export default class RewardColorBase extends cc.Component {
     }
     UpdateReward(){
         this.EffectActive();
-        var moneyReward = this.cost * GameManager.Instance.betLevelCurrent;
+        var moneyReward = this.cost * GameManager.Instance.currentBetLevel;
 
         GameManager.Instance.UpdateMoney(moneyReward);
         GameManager.Instance.GetRewardHistory(this.cost, this.node.color);
@@ -43,7 +44,8 @@ export default class RewardColorBase extends cc.Component {
         //Pool.Instance.SpawnRewardMoney(moneyReward, GameManager.Instance.circlePlayer.position);
 
         //test
-        Pool.Instance.SpawnRewardMoney(moneyReward, cc.v3(0, 0, 0));
+        
+        PoolManager.Instance.SpawnRewardMoney(moneyReward, this.node);
     }
     EffectActive(){
         cc.tween(this.node)

@@ -1,11 +1,11 @@
 
 
 import ButtonBase from "./ButtonBase";
-import GameManager from "./GameManager";
+import GameManager from "./Manager/GameManager";
 import { GhimType } from "./GhimController";
 import GhimLevelSelect from "./GhimLevelSelect";
 import GhimLevelView from "./GhimLevelView";
-import Spawner from "./Spawner";
+import Spawner from "./Manager/Spawner";
 
 const {ccclass, property} = cc._decorator;
 

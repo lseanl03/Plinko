@@ -6,7 +6,7 @@
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
 import Reward2 from "./Reward2";
-import Spawner from "./Spawner";
+import Spawner from "./Manager/Spawner";
 
 const {ccclass, property} = cc._decorator;
 

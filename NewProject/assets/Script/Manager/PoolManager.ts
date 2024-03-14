@@ -5,32 +5,36 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
-import RewardMoney from "./RewardMoney";
-import SpawnerTest from "./Spawner";
+import RewardMoney from "../RewardMoney";
+
 
 const {ccclass, property} = cc._decorator;
+
+//add more
 export enum PoolType {
     CirclePlayer = 0,
     RewardMoney = 1,
+    PileEffect = 2,
 }
 @ccclass
-export default class Pool extends cc.Component {
+export default class PoolManager extends cc.Component {
+
     @property(cc.Prefab)
     circlePlayer: cc.Prefab = null;
 
     @property(cc.Prefab)
     rewardMoney: cc.Prefab = null;
 
-    @property (cc.Canvas)
-    canvas : cc.Canvas = null
+    @property(cc.Prefab)
+    pileEffect: cc.Prefab = null;
 
-    private pools: {[key in PoolType]?: cc.NodePool} = {};
+    public pools: {[key in PoolType]?: cc.NodePool} = {};
 
-    public static Instance : Pool = null;
+    public static Instance : PoolManager = null;
 
     onLoad() {
 
-        Pool.Instance = this;
+        PoolManager.Instance = this;
 
     }
     
@@ -41,6 +45,7 @@ export default class Pool extends cc.Component {
             node = pool.get();
         } 
         else { 
+            //add more
             switch(poolType) {
                 case PoolType.CirclePlayer:
                     node = cc.instantiate(this.circlePlayer);
@@ -48,6 +53,10 @@ export default class Pool extends cc.Component {
                 case PoolType.RewardMoney:
                     node = cc.instantiate(this.rewardMoney);
                     break;
+                case PoolType.PileEffect:
+                    node = cc.instantiate(this.pileEffect);
+                    break;
+                    
             }
             this.pools[poolType] = new cc.NodePool();
         }
@@ -60,12 +69,16 @@ export default class Pool extends cc.Component {
         }
     }
 
-    public SpawnRewardMoney(value : number, pos : cc.Vec3){
+    public SpawnRewardMoney(value : number, node : cc.Node){
         var reward = this.spawn(PoolType.RewardMoney);
-        reward.setParent(this.canvas.node);
-        reward.position = pos;
-
+        reward.setParent(node.parent.parent.parent);
+        reward.color = node.color;
         var rewardMoney = reward.getComponent(RewardMoney);
         rewardMoney.label.string = "+" + value.toString();    
+    }
+
+    public SpawnPileEffect(pileNode : cc.Node){
+        var pileEffect = this.spawn(PoolType.PileEffect);
+        pileEffect.setParent(pileNode);
     }
 }

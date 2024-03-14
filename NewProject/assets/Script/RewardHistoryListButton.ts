@@ -6,7 +6,7 @@
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
 import ButtonBase from "./ButtonBase";
-import StateManager from "./StateManager";
+import StateManager from "./Manager/StateManager";
 
 const {ccclass, property} = cc._decorator;
 

@@ -5,15 +5,17 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
-import BetColor from "./BetColor";
-import CirclePlayer from "./CirclePlayer";
-import DropPosXData from "./DropPosXData";
+import BetColor from "../BetColor";
+import CirclePlayer from "../CirclePlayer";
+import DropPosXData from "../DropPosXData";
 import GameManager from "./GameManager";
-import GhimController, { GhimType } from "./GhimController";
-import Pool, { PoolType } from "./Pool";
-import Reward2 from "./Reward2";
-import RewardGroup from "./RewardGroup";
-import RewardMoney from "./RewardMoney";
+import PoolManager, { PoolType } from "./PoolManager";
+
+import Reward2 from "../Reward2";
+import RewardGroup from "../RewardGroup";
+import UIManager from "./GameplayUIManager";
+import GameplayUIManagerUIManager from "./GameplayUIManager";
+import GameplayUIManager from "./GameplayUIManager";
 
 const {ccclass, property} = cc._decorator;
 const random = (min, max) => {
@@ -30,9 +32,12 @@ export default class Spawner extends cc.Component {
     public id : number = 0;
 
     public isSpawned : boolean = false;
+    public canSpawn : boolean = true;
 
     @property(cc.Node)
     spawnPoint: cc.Node = null;
+
+    public circlePlayer : cc.Node = null;   
 
     //UI
 
@@ -81,23 +86,22 @@ export default class Spawner extends cc.Component {
         //this.indexTest = this.indexTest + 1;
     }
 
-    // protected update(dt: number): void {
-    //     this.timer -= dt;
-    //     if(this.timer <=0){
-    //         this.SpawnCirclePlayer(this.greenBet);
-    //         this.timer = 0.5;
-    //     }
-    // }
+    protected update(dt: number): void {
+        if(!this.canSpawn){
+            this.timer -= dt;
+            if(this.timer <=0){
+                //this.SpawnCirclePlayer(this.greenBet);              
+                this.canSpawn = true;
+            }
+        }
+    }
 
     SpawnCirclePlayer(betColor : BetColor){
-        if(GameManager.Instance.circlePlayer != null) return;
+        if(!this.canSpawn || !GameManager.Instance.MoneyEnough()) return;
 
-        if(!GameManager.Instance.MoneyEnough()){
-            return;
-        }
-        GameManager.Instance.circlePlayer = Pool.Instance.spawn(PoolType.CirclePlayer);
+        this.circlePlayer = PoolManager.Instance.spawn(PoolType.CirclePlayer);
 
-        GameManager.Instance.circlePlayer.setParent(this.canvas.node);     
+        this.circlePlayer.setParent(this.canvas.node);     
 
         //riel
         this.spawnPoint.position = cc.v3(this.GetRewardPosition(), this.spawnPoint.y, this.spawnPoint.z);
@@ -107,14 +111,17 @@ export default class Spawner extends cc.Component {
         
         this.SetCirclePlayerInfo(betColor);
         
-        GameManager.Instance.circlePlayer.position = this.spawnPoint.position;
-        GameManager.Instance.BetButtonState(false);
+        GameplayUIManager.Instance.BetButtonState(false);
         GameManager.Instance.GhimLevelButtonState(false);
-        GameManager.Instance.BetMoney(GameManager.Instance.betLevelCurrent);
+        this.circlePlayer.position = this.spawnPoint.position;
+        GameManager.Instance.BetMoney(GameManager.Instance.currentBetLevel);
+        this.timer = 1;
+        this.canSpawn = false;
+        this.SetRewardID();
 
     }
     SetCirclePlayerInfo(betColor : BetColor){
-        var player = GameManager.Instance.circlePlayer.getComponent(CirclePlayer);       
+        var player = this.circlePlayer.getComponent(CirclePlayer);       
         player.GetInfo(betColor.color, betColor.colorType);
         player.GetPosX(this.spawnPoint.position.x);
         player.GetSize(this.rewardGroup.node.childrenCount -1);
@@ -127,7 +134,7 @@ export default class Spawner extends cc.Component {
             var ID = rewardToDropPosition[this.id];    
         }while(ID.length == 0)
 
-        console.log("roi vao o thu: " + this.id);
+        console.log("tiep theo roi vao o: " + this.id);
     }
     public GetRewardPosition(){
         var length = this.rewardGroup.node.childrenCount -1;
@@ -140,4 +147,5 @@ export default class Spawner extends cc.Component {
         console.log("vi tri spawn: " + rewardID[randomIndex]);
         return rewardID[randomIndex];
     }
+    
 }
