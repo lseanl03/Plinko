@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "1231f686-cd14-4b5e-a3c6-f9b322265885",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 340,
+  "height": 269,
+  "platformSettings": {},
+  "subMetas": {
+    "BetHistoryIcon": {
+      "ver": "1.0.6",
+      "uuid": "10e7de6c-5ff8-48c4-aa7a-6ce7f99dd023",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "1231f686-cd14-4b5e-a3c6-f9b322265885",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 10.5,
+      "offsetY": 4.5,
+      "trimX": 46,
+      "trimY": 30,
+      "width": 269,
+      "height": 200,
+      "rawWidth": 340,
+      "rawHeight": 269,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -13,10 +13,10 @@ const {ccclass, property} = cc._decorator;
 export default class RankingUIButton extends ButtonBase {
 
     @property(cc.Node)
-    rankingPanel : cc.Node = null;
+    panel : cc.Node = null;
 
     @property(cc.Node)
-    rankingToReturnButton : cc.Node = null;
+    toReturnButton : cc.Node = null;
 
         protected onLoad(): void {
             super.onLoad();
@@ -26,12 +26,13 @@ export default class RankingUIButton extends ButtonBase {
         onButtonClick(){
             this.buttonState(false);
 
-            this.rankingPanel.scale = 0;
-            this.rankingPanel.active = true;
+            this.panel.scale = 0;
+            this.panel.active = true;
 
-            this.rankingToReturnButton.scale = 0;
+            this.toReturnButton.scale = 0;
+            this.toReturnButton.opacity = 0;
 
-            cc.tween(this.rankingPanel)
+            cc.tween(this.panel)
             .to(0.2, {scale: 1.1})
             .to(0.1, {scale: 1})
             .call(() => {
@@ -42,9 +43,9 @@ export default class RankingUIButton extends ButtonBase {
         }
 
         rankingToReturnButtonEffect(){
-            this.rankingToReturnButton.scale = 0;
-            cc.tween(this.rankingToReturnButton)
-            .to(0.1, {scale: 1.1})
+
+            cc.tween(this.toReturnButton)
+            .to(0.1, {scale: 1.1, opacity: 255})
             .to(0.1, {scale: 1})
             .start();
         }   

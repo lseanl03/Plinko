@@ -13,7 +13,7 @@ const {ccclass, property} = cc._decorator;
 export default class RankingToReturnButton extends ButtonBase {
     
     @property(cc.Node)
-    rankingPanel : cc.Node = null;
+    panel : cc.Node = null;
 
         protected onLoad(): void {
             super.onLoad();
@@ -24,11 +24,11 @@ export default class RankingToReturnButton extends ButtonBase {
 
             this.buttonState(false);
 
-            cc.tween(this.rankingPanel)
+            cc.tween(this.panel)
             .to(0.1, {scale: 1.1})
             .to(0.2, {scale: 0})
             .call(() => {
-                this.rankingPanel.active = false;
+                this.panel.active = false;
                 this.buttonState(true);
             })
             .start();

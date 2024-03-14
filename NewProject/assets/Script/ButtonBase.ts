@@ -54,6 +54,5 @@ export default class ButtonBase extends cc.Component {
     }
     protected buttonState(state: boolean){
         this.node.getComponent(cc.Button).interactable = state;
-        console.log(this.node.getComponent(cc.Button).interactable);
     } 
 }
