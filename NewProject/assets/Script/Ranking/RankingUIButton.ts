@@ -42,8 +42,8 @@ export default class RankingUIButton extends ButtonBase {
         }
 
         rankingToReturnButtonEffect(){
+            this.rankingToReturnButton.scale = 0;
             cc.tween(this.rankingToReturnButton)
-            .to(0.3, {scale: 0})
             .to(0.1, {scale: 1.1})
             .to(0.1, {scale: 1})
             .start();

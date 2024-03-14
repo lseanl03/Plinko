@@ -24,8 +24,8 @@ export default class ConsumeMoney extends cc.Component {
         this.node.position = cc.v3(0, 0, 0);
 
         cc.tween(this.node)
-        .to(0.5, {opacity: 255, position: cc.v3(0, 50, 0)})
-        .to(0.5, {scale: 0, opacity: 0})
+        .to(0.5, {opacity: 255, position: cc.v3(0, 40, 0)})
+        .to(0.1, {opacity: 0})
         .call(() => {
             this.node.active = false;
         })
