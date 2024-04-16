@@ -5,6 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
+import GameManager from "./GameManager";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -19,6 +21,9 @@ export default class StateManager extends cc.Component {
         StateManager.Instance = this;
     }
 
+    public IsBetting(){
+        return GameManager.Instance.isBetting;
+    }
     public ChangeStateNodeOnClick(self : cc.Node){
         for (let i = 0; i < this.nodeList.length; i++) {
             var element = this.nodeList[i];

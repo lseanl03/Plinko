@@ -5,7 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
-import ButtonBase from "../ButtonBase";
+import ButtonBase from "../Button/ButtonBase";
+
 
 
 const {ccclass, property} = cc._decorator;

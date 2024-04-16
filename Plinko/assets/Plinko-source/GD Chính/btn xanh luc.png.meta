@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "d5d7f00a-0e0b-43c3-b65a-e6ba12353711",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 154,
+  "height": 59,
+  "platformSettings": {},
+  "subMetas": {
+    "btn xanh luc": {
+      "ver": "1.0.6",
+      "uuid": "9d8cf150-a5e5-42ff-928c-dd9f40c72240",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "d5d7f00a-0e0b-43c3-b65a-e6ba12353711",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 154,
+      "height": 59,
+      "rawWidth": 154,
+      "rawHeight": 59,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

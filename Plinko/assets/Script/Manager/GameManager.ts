@@ -1,9 +1,10 @@
-import ConsumeMoney from "../ConsumeMoney";
-import GhimController, { GhimType } from "../GhimController";
-import GhimLevelSelect from "../GhimLevelSelect";
-import GhimLevelView from "../GhimLevelView";
-import RewardHistory from "../RewardHistory";
+import GhimController, { GhimType } from "../Ghim/GhimController";
+import GhimLevelSelect from "../Ghim/GhimLevelSelect";
+import GhimLevelView from "../Ghim/GhimLevelView";
+import RewardHistory from "../Reward/RewardHistory";
+import EventManager from "./EventManager";
 import GameplayUIManager from "./GameplayUIManager";
+import Spawner from "./Spawner";
 
 
 const {ccclass, property} = cc._decorator;
@@ -13,6 +14,7 @@ export default class GameManager extends cc.Component {
 
     public static Instance :GameManager = null;
 
+    isBetting : boolean = false;
     public currentBetLevel : number = 10000;
     public minBetLevel : number = 10000;
     public maxBetLevel : number = 1000000;
@@ -34,16 +36,36 @@ export default class GameManager extends cc.Component {
 
     protected onLoad(): void {
         GameManager.Instance = this;
+        this.AddListener();
     }
 
     protected start(): void {
-        this.Init();
+        this.Init();        
     }
+    AddListener(){
+        EventManager.on('SpawnCirclePlayer', this.OnSpawnCirclePlayer, this);
+        EventManager.on('DestroyCirclePlayer', this.OnDestroyCirclePlayer, this);
+        EventManager.on('StartAutoPlay', this.OnStartAutoPlay, this);
 
+    }
     Init(){
-        this.SwitchGhimLevel(GhimType.ghim_12);
-
+        this.SwitchGhimLevel(GhimType.ghim_16);
     }
+    OnStartAutoPlay(){
+        this.ghimLevelSelect.node.active = false;
+        this.GhimLevelButtonState(false);
+    }
+
+    OnSpawnCirclePlayer(){
+        this.isBetting = true;
+        this.GhimLevelButtonState(false);
+        this.BetMoney(this.currentBetLevel);
+    }
+    OnDestroyCirclePlayer(){
+        this.isBetting = false;
+        this.GhimLevelButtonState(true);
+    }
+
 
     public UpdateMoney(value: number){
         this.currentMoney += value;
@@ -54,21 +76,28 @@ export default class GameManager extends cc.Component {
     public BetMoney(value : number){
         if(value > this.currentMoney) return;
         this.currentMoney -= value;
-        GameplayUIManager.Instance.SetCurrentMoneyLabel(this.currentMoney);
 
-        GameplayUIManager.Instance.ConsumeMoneyState(true);
-        GameplayUIManager.Instance.SetConsumeMoneyLabel(value);
+        GameplayUIManager.Instance.SetCurrentMoneyLabel(this.currentMoney);
     }
 
-    public UpdateBetLevel(value : number){
+    UpdateCurrentBetLevel(value : number){
+        if(this.isBetting) return;
 
-        this.currentBetLevel += value;
+        this.currentBetLevel = value;
 
-        if(this.currentBetLevel <= this.minBetLevel) this.currentBetLevel = this.minBetLevel;
-        else if(this.currentBetLevel >= this.maxBetLevel) this.currentBetLevel = this.maxBetLevel
-        else if(this.currentBetLevel >= this.currentMoney) this.currentBetLevel = this.currentMoney;
+        if(!this.MoneyEnough()) this.CheckCurrentBetLevel();
+        if(this.currentBetLevel < this.minBetLevel) this.currentBetLevel = this.minBetLevel;
+        if(this.currentBetLevel > this.maxBetLevel) this.currentBetLevel = this.maxBetLevel;
 
+        
         GameplayUIManager.Instance.SetCurrentBetLevelLabel(this.currentBetLevel);
+    }
+
+    CheckCurrentBetLevel(){
+        do{
+            this.currentBetLevel /= 2;      
+            if(this.currentBetLevel <= this.minBetLevel) break;  
+        }while(!this.MoneyEnough());
     }
 
     public MoneyEnough(){
@@ -90,26 +119,26 @@ export default class GameManager extends cc.Component {
             }
         }
     }
-    public GetRewardHistory(cost: number, color: cc.Color){
-        var rewardHistoryOnView = cc.instantiate(this.rewardHistoryPrefab);
-        rewardHistoryOnView.setParent(GameplayUIManager.Instance.rewardHistoryViewHolder);
-        rewardHistoryOnView.setSiblingIndex(0);
-        rewardHistoryOnView.getComponent(RewardHistory).GetInfo(cost, color);
-        rewardHistoryOnView.getComponent(RewardHistory).Anim();
+    // public GetRewardHistory(cost: number, color: cc.Color){
+    //     var rewardHistoryOnView = cc.instantiate(this.rewardHistoryPrefab);
+    //     rewardHistoryOnView.setParent(GameplayUIManager.Instance.rewardHistoryViewHolder);
+    //     rewardHistoryOnView.setSiblingIndex(0);
+    //     rewardHistoryOnView.getComponent(RewardHistory).GetInfo(cost, color);
+    //     rewardHistoryOnView.getComponent(RewardHistory).Anim();
 
-        if(GameplayUIManager.Instance.rewardHistoryViewHolder.childrenCount >= 15){
-            GameplayUIManager.Instance.rewardHistoryViewHolder.children[GameplayUIManager.Instance.rewardHistoryViewHolder.childrenCount - 1].destroy();
-        }
+    //     if(GameplayUIManager.Instance.rewardHistoryViewHolder.childrenCount >= 15){
+    //         GameplayUIManager.Instance.rewardHistoryViewHolder.children[GameplayUIManager.Instance.rewardHistoryViewHolder.childrenCount - 1].destroy();
+    //     }
         
-        var rewardHistoryOnList = cc.instantiate(this.rewardHistoryPrefab);
-        rewardHistoryOnList.setParent(GameplayUIManager.Instance.rewardHistoryListHolder);
-        rewardHistoryOnList.setSiblingIndex(0);
-        rewardHistoryOnList.getComponent(RewardHistory).GetInfo(cost, color);
+    //     var rewardHistoryOnList = cc.instantiate(this.rewardHistoryPrefab);
+    //     rewardHistoryOnList.setParent(GameplayUIManager.Instance.rewardHistoryListHolder);
+    //     rewardHistoryOnList.setSiblingIndex(0);
+    //     rewardHistoryOnList.getComponent(RewardHistory).GetInfo(cost, color);
        
-        if(GameplayUIManager.Instance.rewardHistoryListHolder.childrenCount >= 15){
-            GameplayUIManager.Instance.rewardHistoryListHolder.children[GameplayUIManager.Instance.rewardHistoryListHolder.childrenCount - 1].destroy();
-        }
-    }
+    //     if(GameplayUIManager.Instance.rewardHistoryListHolder.childrenCount >= 15){
+    //         GameplayUIManager.Instance.rewardHistoryListHolder.children[GameplayUIManager.Instance.rewardHistoryListHolder.childrenCount - 1].destroy();
+    //     }
+    // }
 
     public GhimLevelButtonState(state : boolean){
         this.ghimLevelView.button.interactable = state;

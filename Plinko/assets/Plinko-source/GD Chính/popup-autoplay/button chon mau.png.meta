@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "2541b99c-9e9e-4de6-8ded-a7a40907f752",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 384,
+  "height": 55,
+  "platformSettings": {},
+  "subMetas": {
+    "button chon mau": {
+      "ver": "1.0.6",
+      "uuid": "0427d97a-3c2b-4542-882f-c58c94be545c",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "2541b99c-9e9e-4de6-8ded-a7a40907f752",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 384,
+      "height": 55,
+      "rawWidth": 384,
+      "rawHeight": 55,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

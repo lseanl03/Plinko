@@ -1,4 +1,6 @@
-import { ColorType } from "./RewardColorBase";
+import { ColorType } from "./Reward/RewardColorBase";
+
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -7,8 +9,20 @@ export default class CirclePlayer extends cc.Component {
     //24 radius == 8
     //22 radius == 7
     //20 radius == 6
-    colorType : ColorType = ColorType.red;
     public posX : number = 0;
+    colorType : ColorType = ColorType.none;
+    sprite : cc.Sprite = null;  
+    currentColor : cc.Color = null;
+    betMoney : number = 0;
+
+    @property(cc.SpriteFrame)
+    greenCircle : cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    yellowCircle : cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    redCircle : cc.SpriteFrame = null;
 
     protected onLoad(): void {
         var manager = cc.director.getCollisionManager();
@@ -17,14 +31,22 @@ export default class CirclePlayer extends cc.Component {
 
         cc.director.getPhysicsManager().enabled = true;
 
+        this.sprite = this.node.getComponent(cc.Sprite);
+
     }
 
+    public GetBetMoney(money : number){
+        this.betMoney = money;
+    }
     public GetPosX(value : number){
         this.posX = value;
     }
-    public GetInfo(color : cc.Color, type : ColorType){
-        this.ChangeColor(color);
+    public GetInfo(type : ColorType){
+        this.ChangeColor(type);
         this.ChangeColorType(type);
+    }
+    public GetCurrentColor(color : cc.Color){
+        this.currentColor = color;
     }
     public GetSize(size : number){
         switch(size){
@@ -40,8 +62,19 @@ export default class CirclePlayer extends cc.Component {
         
         }
     }
-    public ChangeColor(color : cc.Color){
-        this.node.color = color;
+    public ChangeColor(colorType : ColorType){
+        switch(colorType){
+            case ColorType.green:
+                this.sprite.spriteFrame = this.greenCircle;
+                break;
+            case ColorType.yellow:
+                this.sprite.spriteFrame = this.yellowCircle;
+                break;
+            case ColorType.red:
+                this.sprite.spriteFrame = this.redCircle;
+                break;
+        
+        }
     }
     public ChangeColorType(type : ColorType){
         this.colorType = type;

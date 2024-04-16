@@ -5,7 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
-import ButtonBase from "../ButtonBase";
+import ButtonBase from "../Button/ButtonBase";
+
 
 const {ccclass, property} = cc._decorator;
 
@@ -24,14 +25,12 @@ export default class TutorialToReturnButton extends ButtonBase {
         }
         onButtonClick(){
 
-            this.buttonState(false);
             cc.tween(this.tutorialPanel)
             .to(0.2, { position: cc.v3(0, -50, 0)})
             .to(0.2, { position: cc.v3(0, 200, 0), opacity: 0})
             .call(() => {
                 this.tutorialPanel.active = false;
                 this.tutorialBg.active = false;
-                this.buttonState(true);
             })
             .start();
         }
