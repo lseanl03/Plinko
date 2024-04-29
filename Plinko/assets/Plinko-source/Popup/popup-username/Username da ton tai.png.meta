@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "de497035-29f2-46c0-944f-a10ce93acaaf",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 273,
+  "height": 30,
+  "platformSettings": {},
+  "subMetas": {
+    "Username da ton tai": {
+      "ver": "1.0.6",
+      "uuid": "d6b6c048-be49-482c-9dbd-d6a83e1c7a4c",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "de497035-29f2-46c0-944f-a10ce93acaaf",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 273,
+      "height": 30,
+      "rawWidth": 273,
+      "rawHeight": 30,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

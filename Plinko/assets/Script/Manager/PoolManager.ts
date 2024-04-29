@@ -10,15 +10,21 @@ const {ccclass, property} = cc._decorator;
 
 //add more
 export enum PoolType {
-    CirclePlayer = 0,
-    RewardMoney = 1,
-    PileEffect = 2,
+    CirclePlayer,
+    History,
+    TopBet
 }
 @ccclass
 export default class PoolManager extends cc.Component {
 
     @property(cc.Prefab)
     circlePlayer: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    history: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    topBet: cc.Prefab = null;
 
     public pools: {[key in PoolType]?: cc.NodePool} = {};
 
@@ -42,6 +48,12 @@ export default class PoolManager extends cc.Component {
             switch(poolType) {
                 case PoolType.CirclePlayer:
                     node = cc.instantiate(this.circlePlayer);
+                    break;
+                case PoolType.History:
+                    node = cc.instantiate(this.history);
+                    break;
+                case PoolType.TopBet:
+                    node = cc.instantiate(this.topBet);
                     break;
             }
             this.pools[poolType] = new cc.NodePool();

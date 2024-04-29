@@ -9,6 +9,8 @@ export default class CirclePlayer extends cc.Component {
     //24 radius == 8
     //22 radius == 7
     //20 radius == 6
+    
+    public idTarget : number = 0;
     public posX : number = 0;
     colorType : ColorType = ColorType.none;
     sprite : cc.Sprite = null;  
@@ -35,6 +37,9 @@ export default class CirclePlayer extends cc.Component {
 
     }
 
+    public GetIDTarget(id : number){
+        this.idTarget = id;
+    }
     public GetBetMoney(money : number){
         this.betMoney = money;
     }

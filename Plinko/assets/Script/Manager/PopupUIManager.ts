@@ -14,8 +14,12 @@ import StopIfMoneyDecreasesGroup from "../AutoPlayPopup/StopIfMoneyDecreasesGrou
 import StopIfSingleWinExceedsGroup from "../AutoPlayPopup/StopIfSingleWinExceedsGroup";
 import ButtonBase from "../Button/ButtonBase";
 import HistoryPopup from "../_HistoryPopup/HistoryPopup";
+import NotificationPopup from "../_NotificationPopup/NotificationPopup";
+import ShopPopup from "../_ShopPopup/ShopPopup";
 import TopBetPopup from "../_TopBetPopup/TopBetPopup";
 import TutorialPopup from "../_TutorialPopup/TutorialPopup";
+import UserNamePopup from "../_UserNamePopup/UserNamePopup";
+import DataManager from "./DataManager";
 import EventManager from "./EventManager";
 import GameManager from "./GameManager";
 import GameplayUIManager from "./GameplayUIManager";
@@ -45,6 +49,15 @@ export default class PopupUIManager extends cc.Component {
     @property(TopBetPopup)
     topBetPopup : TopBetPopup = null;
 
+    @property(ShopPopup)
+    shopPopup : ShopPopup = null;
+
+    @property(UserNamePopup)
+    userNamePopup : UserNamePopup = null;
+
+    @property(NotificationPopup)
+    notificationPopup : NotificationPopup = null;
+
     @property(StopIfMoneyDecreasesGroup)
     stopIfMoneyDecreasesGroup : StopIfMoneyDecreasesGroup = null;
 
@@ -63,8 +76,11 @@ export default class PopupUIManager extends cc.Component {
         this.tutorialPopup.closeButton.node.on('click', this.OnTutorialExit, this);
         this.historyPopup.closeButton.node.on('click', this.OnHistoryExit, this);
         this.topBetPopup.closeButton.node.on('click', this.OnTopBetExit, this);
+        this.shopPopup.closeButton.node.on('click', this.OnShopExit, this);
+        this.notificationPopup.closeButton.node.on('click', this.OnNotificationExit, this);
 
     }
+
     StartAutoPlay(){
 
 
@@ -98,11 +114,25 @@ export default class PopupUIManager extends cc.Component {
         this.HidePopUp(this.historyPopup.panel, this.historyPopup.node);
         this.historyPopup.closeButton.interactable = false;
     }
+    OnShopExit(){
+        this.HidePopUp(this.shopPopup.panel, this.shopPopup.node);
+        this.shopPopup.closeButton.interactable = false;
+    }
 
     OnTopBetExit(){
         this.HidePopUp(this.topBetPopup.panel, this.topBetPopup.node);
         this.topBetPopup.closeButton.interactable = false;
     }
+    OnNotificationExit(){
+        this.HidePopUp(this.notificationPopup.panel, this.notificationPopup.node);
+        this.notificationPopup.closeButton.interactable = false;
+
+        if(this.notificationPopup.isComplete){
+            this.HidePopUp(this.userNamePopup.panel, this.userNamePopup.node);
+            GameManager.Instance.SetNickname(DataManager.instance.nickName);
+        }
+    }
+
 
     ShowAutoPlayPopup(){
         this.ShowPopUp(this.autoPlayPopup.panel, this.autoPlayPopup.node);
@@ -120,6 +150,23 @@ export default class PopupUIManager extends cc.Component {
         this.ShowPopUp(this.topBetPopup.panel, this.topBetPopup.node);
         this.topBetPopup.closeButton.interactable = true;
     }
+
+    ShowShopPopup(){
+        this.ShowPopUp(this.shopPopup.panel, this.shopPopup.node);
+        this.shopPopup.closeButton.interactable = true;
+    }
+    ShowNotificationPopup(){
+        this.ShowPopUp(this.notificationPopup.panel, this.notificationPopup.node);
+        this.notificationPopup.closeButton.interactable = true;
+    }
+
+    //Show lên khi lân đầu chơi
+    ShowUserNamePopup(){
+        this.ShowPopUp(this.userNamePopup.panel, this.userNamePopup.node);
+    }
+
+
+
 
     ShowPopUp(panel : cc.Node, self : cc.Node){
         self.active = true;
@@ -148,6 +195,8 @@ export default class PopupUIManager extends cc.Component {
         .start();
     }
 
+
+
     GetListBetColorSelected(){
         this.betColorList = [];
         this.betColorGroup.betColorList2.forEach(betColor => {
@@ -167,6 +216,8 @@ export default class PopupUIManager extends cc.Component {
                 
         });
     }
+
+
     UpdateCurrentCost(){
         this.currentCost--;
         GameplayUIManager.Instance.autoPlayButton.SetAutoPlayLabel(this.currentCost);
@@ -175,6 +226,7 @@ export default class PopupUIManager extends cc.Component {
             EventManager.emit('StopAutoPlay');
         }
     }
+    
     CheckStopIfMoneyDecreases(){
         if(this.stopIfMoneyDecreasesGroup.isOn){
             if(GameManager.Instance.currentMoney <= this.stopIfMoneyDecreasesGroup.currentMoney){

@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "878c4637-5007-4f18-afdd-0855c3a1738e",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 181,
+  "height": 60,
+  "platformSettings": {},
+  "subMetas": {
+    "btn hoan tat": {
+      "ver": "1.0.6",
+      "uuid": "ddf46465-48c0-4f76-aef2-4a4d32e584fa",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "878c4637-5007-4f18-afdd-0855c3a1738e",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 181,
+      "height": 60,
+      "rawWidth": 181,
+      "rawHeight": 60,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -147,7 +147,7 @@ export default class Spawner extends cc.Component {
         this.circlePlayer = PoolManager.Instance.spawn(PoolType.CirclePlayer);
 
         this.circlePlayer.setParent(this.canvas.node); 
-        this.circlePlayer.setSiblingIndex(4);    
+        this.circlePlayer.setSiblingIndex(this.spawnPoint.getSiblingIndex() + 1);    
 
         
         //riel
@@ -163,7 +163,8 @@ export default class Spawner extends cc.Component {
 
     }
     SetCirclePlayerInfo(betColor : BetButton){
-        var player = this.circlePlayer.getComponent(CirclePlayer);       
+        var player = this.circlePlayer.getComponent(CirclePlayer);      
+        player.GetIDTarget(this.id); 
         player.GetInfo(betColor.colorType);
         player.GetPosX(this.spawnPoint.position.x);
         player.GetSize(this.rewardGroup.node.childrenCount -1);

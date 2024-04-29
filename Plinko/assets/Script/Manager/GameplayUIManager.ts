@@ -10,6 +10,7 @@ import PlayButton from "../Button/PlayButton";
 import MoneyPopup from "../MoneyPopup";
 import ConsumeMoney from "../MoneyPopup";
 import { ColorType } from "../Reward/RewardColorBase";
+import DataManager from "./DataManager";
 import EventManager from "./EventManager";
 import GameManager from "./GameManager";
 import PopupUIManager from "./PopupUIManager";
@@ -40,23 +41,19 @@ export default class GameplayUIManager extends cc.Component {
     @property (MoneyPopup)
     moneyPopup : MoneyPopup = null;
 
-    @property (cc.Node)
-    rewardHistoryViewHolder : cc.Node = null;
-
-    @property (cc.Node)
-    rewardHistoryListHolder : cc.Node = null;
+    @property (cc.Label)
+    nicknameLabel : cc.Label = null;
 
 
     protected onLoad(): void {
         GameplayUIManager.Instance = this;
 
         this.AddListener();
-
     }
+
     protected start(): void {
         this.Init();
     }
-
     Init(){
         this.SetCurrentBetLevelLabel(GameManager.Instance.currentBetLevel);
         this.SetCurrentMoneyLabel(GameManager.Instance.currentMoney);
@@ -120,8 +117,13 @@ export default class GameplayUIManager extends cc.Component {
     }
 
 
+    public SetNicknameLabel(nickname : string)
+    {
+        this.nicknameLabel.string = nickname;
+    }
     public SetCurrentMoneyLabel(currentMoney : number){
         this.currentMoneyLabel.string = "" + currentMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        DataManager.instance.SaveLocalData('money', currentMoney);
     }
     public SetCurrentBetLevelLabel(currentBetLevel : number){
         this.currentBetLevelLabel.string = "" + currentBetLevel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");

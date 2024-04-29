@@ -13,9 +13,10 @@ const {ccclass, property} = cc._decorator;
 export default class ToolUIManager extends cc.Component {
 
     public static Instance : ToolUIManager = null;
+
     @property(cc.Button)
     exitButton : cc.Button = null;
-    
+
     @property(cc.Button)
     tutorialButton : cc.Button = null;
     
@@ -27,11 +28,16 @@ export default class ToolUIManager extends cc.Component {
     
     @property(cc.Button)
     volumeButton : cc.Button = null;
+    
+    @property(cc.Button)
+    shopButton : cc.Button = null;
 
     protected onLoad(): void {
 
         ToolUIManager.Instance = this;
 
+
+        this.shopButton.node.on('click', this.OnShopClick, this);
         this.exitButton.node.on('click', this.OnExitClick, this);
         this.tutorialButton.node.on('click', this.OnTutorialClick, this);
         this.rankButton.node.on('click', this.OnTopBetClick, this);
@@ -49,6 +55,9 @@ export default class ToolUIManager extends cc.Component {
     }
     OnHistoryClick(){
         PopupUIManager.Instance.ShowHistoryPopup();
+    }
+    OnShopClick(){
+        PopupUIManager.Instance.ShowShopPopup();
     }
     OnVolumeClick(){
 

@@ -41,10 +41,13 @@ export default class Reward2 extends cc.Component {
     red: RewardColorBase = null;
 
     protected onLoad(): void {
-        // this.id = this.node.getSiblingIndex();
         // this.posLabel.node.active = true;
         // this.posLabel.string = "" + this.id;
-
+        // this.posLabel.node.height = 8;
+        // this.posLabel.fontSize = 10;
+        // this.posLabel.lineHeight = 8;
+        
+        this.id = this.node.getSiblingIndex();
         this.Init();
     }
 
@@ -78,7 +81,8 @@ export default class Reward2 extends cc.Component {
             if(player != null){
                 this.HandleRewardWithColor(player.colorType, player.betMoney);
                 //riel
-                //console.log(this.id + " id" + " | "+ (player.posX + " posX"));
+                if(this.id != player.idTarget)
+                console.log("id rớt: " +this.id + " | " + "is cần rớt: "+ player.idTarget + " | "+ player.posX + " posX");
                 
                 //test
                 //if(this.id >= 16 || this.id <= 0)

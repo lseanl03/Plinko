@@ -10,6 +10,7 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class History extends cc.Component {
 
+    @property(cc.Sprite)
     sprite : cc.Sprite = null;
 
     @property(cc.Label)
@@ -23,24 +24,27 @@ export default class History extends cc.Component {
 
     @property(cc.Label)
     winLabel : cc.Label = null;
-    
-    protected onLoad(): void {
-        this.sprite = this.getComponent(cc.Sprite);
+
+    moneyWin : number = 0;
+
+    SetSpriteWithColor(spriteFrame : cc.SpriteFrame){
+        this.sprite.spriteFrame = spriteFrame;
     }
 
-    SetTimeLabel(time : Date){
-        this.timeLabel.string = time.toLocaleString();
+    SetTimeLabel(time : string){
+        this.timeLabel.string = time;
     }
 
-    SetSessionLabel(session : string){
-        this.sessionLabel.string = session;
+    SetSessionLabel(session : number){
+        this.sessionLabel.string = "X " + session;
     }
 
     SetBetLevelLabel(betLevel : number){
-        this.betLevelLabel.string = betLevel.toString();
+        this.betLevelLabel.string = betLevel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
     }
 
-    SetWinLabel(win : number){
-        this.winLabel.string = win.toString();
+    SetMoneyWinLabel(moneyWin : number){
+        this.moneyWin = moneyWin;
+        this.winLabel.string = moneyWin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 }
