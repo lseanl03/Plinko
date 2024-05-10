@@ -200,15 +200,15 @@ export default class DataManager extends cc.Component {
             this.SendCheckHistoryRequest('me/history', (data: any) => {
                 this.GetHistoryData(data);
             });
-            
-            this.SendCheckTopRequest('top', (data: any) => {
-                this.GetTopBetData(data);
-            });
         }
         else
         {
             PopupUIManager.Instance.ShowUserNamePopup();
         }
+
+        this.SendCheckTopRequest('top', (data: any) => {
+            this.GetTopBetData(data);
+        });
     }
 
     CreateUsername(){

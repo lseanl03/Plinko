@@ -18,6 +18,7 @@ import RewardGroup from "../Reward/RewardGroup";
 import EventManager from "./EventManager";
 import { ColorType } from "../Reward/RewardColorBase";
 import PopupUIManager from "./PopupUIManager";
+import Reward2 from "../Reward/Reward2";
 
 const {ccclass, property} = cc._decorator;
 const random = (min, max) => {
@@ -27,7 +28,7 @@ const random = (min, max) => {
 export default class Spawner extends cc.Component {
 
     public dropPosXData : DropPosXData;
-
+    private rate : number = 80;
     private timer : number = 0.5;
     private indexTest : number = 0;
 
@@ -142,6 +143,7 @@ export default class Spawner extends cc.Component {
 
     SpawnCirclePlayer(betColor : BetButton){
 
+        cc.log(betColor.colorType);
         if(!this.canSpawn || !GameManager.Instance.MoneyEnough()) return;
         
         this.circlePlayer = PoolManager.Instance.spawn(PoolType.CirclePlayer);
@@ -175,8 +177,16 @@ export default class Spawner extends cc.Component {
         var length = this.rewardGroup.node.childrenCount -1;
         var rewardToDropPosition = this.dropPosXData.GetTypeRewardToDropPositionGhim(length);
         do{
-            this.id = Math.floor(random(0, this.rewardGroup.node.childrenCount -1));
-            var ID = rewardToDropPosition[this.id];    
+            var rateIndex = Math.floor(random(0, 100));
+            if(rateIndex >= this.rate){
+                this.id = Math.floor(random(0, this.rewardGroup.node.childrenCount -1));
+                cc.log("id: " + this.id);
+            }
+            else{
+                var indexCenter = Math.floor((this.rewardGroup.node.childrenCount -1) /2);
+                this.id = Math.floor(random(indexCenter - 2, indexCenter + 2));
+            }    
+            var ID = rewardToDropPosition[this.id];
         }while(ID.length == 0)
 
         console.log("tiep theo roi vao o: " + this.id);
@@ -223,4 +233,5 @@ export default class Spawner extends cc.Component {
 
 
     }
+
 }

@@ -5,6 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
+import AudioManager from "./AudioManager";
 import PopupUIManager from "./PopupUIManager";
 
 const {ccclass, property} = cc._decorator;
@@ -13,6 +14,8 @@ const {ccclass, property} = cc._decorator;
 export default class ToolUIManager extends cc.Component {
 
     public static Instance : ToolUIManager = null;
+
+    isVolumeOn : boolean = true;
 
     @property(cc.Button)
     exitButton : cc.Button = null;
@@ -31,6 +34,14 @@ export default class ToolUIManager extends cc.Component {
     
     @property(cc.Button)
     shopButton : cc.Button = null;
+
+
+
+    @property(cc.SpriteFrame)
+    volumeOnSprite : cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    volumeOffSprite : cc.SpriteFrame = null;
 
     protected onLoad(): void {
 
@@ -60,6 +71,12 @@ export default class ToolUIManager extends cc.Component {
         PopupUIManager.Instance.ShowShopPopup();
     }
     OnVolumeClick(){
-
+        this.isVolumeOn = !this.isVolumeOn;
+        AudioManager.Instance.MuteState(this.isVolumeOn);
+        if(this.isVolumeOn){
+            this.volumeButton.getComponent(cc.Sprite).spriteFrame = this.volumeOnSprite;
+        }else{
+            this.volumeButton.getComponent(cc.Sprite).spriteFrame = this.volumeOffSprite;
+        }
     }
 }

@@ -6,6 +6,7 @@
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
 import CirclePlayer from "../CirclePlayer";
+import AudioManager from "../Manager/AudioManager";
 import EventManager from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import GameplayUIManager from "../Manager/GameplayUIManager";
@@ -79,10 +80,11 @@ export default class Reward2 extends cc.Component {
             var player = otherCollider.getComponent(CirclePlayer);
 
             if(player != null){
+                AudioManager.Instance.PlayRewardSound();
                 this.HandleRewardWithColor(player.colorType, player.betMoney);
                 //riel
-                if(this.id != player.idTarget)
-                console.log("id rớt: " +this.id + " | " + "is cần rớt: "+ player.idTarget + " | "+ player.posX + " posX");
+                //if(this.id != player.idTarget)
+                //console.log("id rớt: " +this.id + " | " + "is cần rớt: "+ player.idTarget + " | "+ player.posX + " posX");
                 
                 //test
                 //if(this.id >= 16 || this.id <= 0)

@@ -1,4 +1,5 @@
 import CirclePlayer from "./CirclePlayer";
+import AudioManager from "./Manager/AudioManager";
 import PoolManager, { PoolType } from "./Manager/PoolManager";
 import Spawner from "./Manager/Spawner";
 
@@ -33,6 +34,8 @@ export default class Pile extends cc.Component {
         this.pileEffect.scale = 1;
 
         var player = otherCollider.getComponent(CirclePlayer);
+        AudioManager.Instance.PlayPileCollisionSound();
+        AudioManager.Instance.PlayRewardSound();
 
         cc.tween(this.pileEffect)
         .to(0.4, { color: player.currentColor})

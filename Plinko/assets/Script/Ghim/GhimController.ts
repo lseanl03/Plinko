@@ -6,6 +6,8 @@
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
 import GameManager from "../Manager/GameManager";
+import Reward2 from "../Reward/Reward2";
+import RewardGroup from "../Reward/RewardGroup";
 
 
 export enum GhimType {

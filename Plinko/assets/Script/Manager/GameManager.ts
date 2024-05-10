@@ -1,6 +1,7 @@
 import GhimController, { GhimType } from "../Ghim/GhimController";
 import GhimLevelSelect from "../Ghim/GhimLevelSelect";
 import GhimLevelView from "../Ghim/GhimLevelView";
+import { ColorType } from "../Reward/RewardColorBase";
 import RewardHistory from "../Reward/RewardHistory";
 import DataManager from "./DataManager";
 import EventManager from "./EventManager";
@@ -9,7 +10,6 @@ import Spawner from "./Spawner";
 
 
 const {ccclass, property} = cc._decorator;
-
 @ccclass
 export default class GameManager extends cc.Component {
 
@@ -20,7 +20,6 @@ export default class GameManager extends cc.Component {
     public minBetLevel : number = 10000;
     public maxBetLevel : number = 160000;
     public currentMoney : number = 0;
-
 
     @property(GhimController)
     ghimControllerList: GhimController[] = [];
